@@ -10,8 +10,9 @@ import re
 
 """抓取花瓣网指定页面图片https://huaban.com/boards/18976743"""
 class HbImagecrawler():
-    def __init__(self):
+    def __init__(self,mysterious_code=18976743):
         """
+        :param mysterious_code: 传入url指定值,默认为18976743
             初始化对象：
         1.创建文件夹用于存放图片
         2.初始化属性
@@ -19,7 +20,8 @@ class HbImagecrawler():
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'
         }
-        self.url = "https://huaban.com/boards/18976743/"
+        self.mysterious_code = mysterious_code
+        self.url = "https://huaban.com/boards/"+str(mysterious_code)
         self.path_name = "C:\\Users\\曾涛\\Desktop\\HbImage"
         self.imgNum = 0
         self.page = 1
@@ -76,7 +78,7 @@ class HbImagecrawler():
                 self.downloadImg(src_name,src_url)
                 self.imgNum+=1
         try:
-            self.url = "https://huaban.com/boards/18976743/?max="+src_pins[-1][9:]
+            self.url = "https://huaban.com/boards/"+str(self.mysterious_code)+"/?max="+src_pins[-1][9:]
         except:
             print("请求页面为空,一共下了"+str(self.imgNum)+"张图")
         else:
@@ -95,6 +97,6 @@ class HbImagecrawler():
             print(src_name+"下载成功")
 
 if __name__ == '__main__':
-    crawler = HbImagecrawler()
+    crawler = HbImagecrawler(mysterious_code=45991946)
     # 设置最大爬取的图片数为40，爬取的起始页数为5
-    crawler.grabSrcUrl(40,5)
+    crawler.grabSrcUrl(maxNum=200)
